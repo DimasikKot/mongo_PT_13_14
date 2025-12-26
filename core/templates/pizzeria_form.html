@@ -1,13 +1,42 @@
 {% extends "base.html" %}
-
 {% block content %}
-<h2>{{ title }}</h2>
+
+<h2>{% if pizzeria %}Редактировать пиццерию{% else %}Добавить пиццерию{% endif %}</h2>
 
 <form method="post">
     {% csrf_token %}
-    <input name="name" placeholder="Название" value="{{ pizzeria.name }}">
-    <input name="address" placeholder="Адрес" value="{{ pizzeria.address }}">
-    <input name="phone" placeholder="Телефон" value="{{ pizzeria.phone }}">
+
+    <h3>Основная информация</h3>
+    <input name="name" placeholder="Название" value="{{ pizzeria.name }}"><br>
+    <input name="address" placeholder="Адрес" value="{{ pizzeria.address }}"><br>
+    <input name="phone" placeholder="Телефон" value="{{ pizzeria.phone }}"><br>
+
+    <h3>Пиццы</h3>
+
+    {% if pizzeria %}
+        {% for pizza in pizzeria.pizzas %}
+            <fieldset>
+                <legend>Пицца</legend>
+                <input name="pizza_name" value="{{ pizza.name }}" placeholder="Название"><br>
+                <input name="pizza_price" value="{{ pizza.price }}" placeholder="Цена"><br>
+                <input name="pizza_weight" value="{{ pizza.weight }}" placeholder="Вес"><br>
+                <input name="pizza_ingredients"
+                       value="{{ pizza.ingredients|join:', ' }}"
+                       placeholder="Ингредиенты через запятую"><br>
+            </fieldset>
+        {% endfor %}
+    {% endif %}
+
+    <fieldset>
+        <legend>Новая пицца</legend>
+        <input name="pizza_name" placeholder="Название"><br>
+        <input name="pizza_price" placeholder="Цена"><br>
+        <input name="pizza_weight" placeholder="Вес"><br>
+        <input name="pizza_ingredients" placeholder="Ингредиенты через запятую"><br>
+    </fieldset>
+
+    <br>
     <button type="submit">Сохранить</button>
 </form>
+
 {% endblock %}

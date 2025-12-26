@@ -45,38 +45,53 @@ def cookbooks_page(request):
     return render(request, "cookbooks.html", {"cookbooks": data})
 
 
-def add_pizzeria_page(request):
+def pizzeria_form(request, id=None):
+    pizzeria = None
+
+    if id:
+        pizzeria = pizzerias.find_one({"_id": ObjectId(id)})
+
     if request.method == "POST":
-        pizzerias.insert_one({
+        pizzas = []
+
+        pizza_names = request.POST.getlist("pizza_name")
+        pizza_prices = request.POST.getlist("pizza_price")
+        pizza_weights = request.POST.getlist("pizza_weight")
+        pizza_ingredients = request.POST.getlist("pizza_ingredients")
+
+        for i in range(len(pizza_names)):
+            pizzas.append({
+                "name": pizza_names[i],
+                "price": int(pizza_prices[i]),
+                "weight": int(pizza_weights[i]),
+                "ingredients": [
+                    ing.strip()
+                    for ing in pizza_ingredients[i].split(",")
+                    if ing.strip()
+                ]
+            })
+
+        data = {
             "name": request.POST["name"],
             "address": request.POST["address"],
             "phone": request.POST["phone"],
-            "pizzas": []
-        })
-        return redirect("/pizzerias/")
-    return render(request, "pizzeria_form.html", {"title": "Добавить пиццерию"})
+            "pizzas": pizzas
+        }
 
-def update_pizzeria_page(request, id):
-    pizzeria = pizzerias.find_one({"_id": ObjectId(id)})
+        if id:
+            pizzerias.update_one(
+                {"_id": ObjectId(id)},
+                {"$set": data}
+            )
+        else:
+            pizzerias.insert_one(data)
 
-    if request.method == "POST":
-        pizzerias.update_one(
-            {"_id": ObjectId(id)},
-            {"$set": {
-                "name": request.POST["name"],
-                "address": request.POST["address"],
-                "phone": request.POST["phone"]
-            }}
-        )
         return redirect("/pizzerias/")
 
     return render(
         request,
         "pizzeria_form.html",
-        {
-            "title": "Редактировать пиццерию",
-            "pizzeria": pizzeria
-        }
+        {"pizzeria": pizzeria}
     )
 
 def delete_pizzeria_page(request, id):
@@ -84,39 +99,49 @@ def delete_pizzeria_page(request, id):
     return redirect("/pizzerias/")
 
 
-def add_cookbook_page(request):
+def cookbook_form(request, id=None):
+    cookbook = None
+
+    if id:
+        cookbook = cookbooks.find_one({"_id": ObjectId(id)})
+
     if request.method == "POST":
-        cookbooks.insert_one({
+        recipes = []
+
+        titles = request.POST.getlist("recipe_title")
+        times = request.POST.getlist("recipe_time")
+        ingredients = request.POST.getlist("recipe_ingredients")
+
+        for i in range(len(titles)):
+            recipes.append({
+                "title": titles[i],
+                "cooking_time_minutes": int(times[i]),
+                "ingredients": [
+                    ing.strip()
+                    for ing in ingredients[i].split(",")
+                    if ing.strip()
+                ]
+            })
+
+        data = {
             "cookbook_name": request.POST["cookbook_name"],
-            "recipes": []
-        })
-        return redirect("/cookbooks/")
-
-    return render(
-        request,
-        "cookbook_form.html",
-        {"title": "Добавить кулинарную книгу"}
-    )
-
-def update_cookbook_page(request, id):
-    cookbook = cookbooks.find_one({"_id": ObjectId(id)})
-
-    if request.method == "POST":
-        cookbooks.update_one(
-            {"_id": ObjectId(id)},
-            {"$set": {
-                "cookbook_name": request.POST["cookbook_name"]
-            }}
-        )
-        return redirect("/cookbooks/")
-
-    return render(
-        request,
-        "cookbook_form.html",
-        {
-            "title": "Редактировать кулинарную книгу",
-            "cookbook": cookbook
+            "recipes": recipes
         }
+
+        if id:
+            cookbooks.update_one(
+                {"_id": ObjectId(id)},
+                {"$set": data}
+            )
+        else:
+            cookbooks.insert_one(data)
+
+        return redirect("/cookbooks/")
+
+    return render(
+        request,
+        "cookbook_form.html",
+        {"cookbook": cookbook}
     )
 
 def delete_cookbook_page(request, id):

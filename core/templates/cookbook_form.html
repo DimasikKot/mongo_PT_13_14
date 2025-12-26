@@ -1,21 +1,38 @@
 {% extends "base.html" %}
-
 {% block content %}
-<h2>{{ title }}</h2>
+
+<h2>{% if cookbook %}Редактировать книгу{% else %}Добавить книгу{% endif %}</h2>
 
 <form method="post">
     {% csrf_token %}
 
-    <label>Название кулинарной книги:</label><br>
-    <input type="text" name="cookbook_name" value="{{ cookbook.cookbook_name }}" required>
-    <br><br>
+    <h3>Название книги</h3>
+    <input name="cookbook_name" value="{{ cookbook.cookbook_name }}" placeholder="Название"><br>
 
-    <p>
-        <b>Примечание:</b><br>
-        Рецепты добавляются как массив внутри документа MongoDB.<br>
-        Для учебной работы достаточно редактировать название книги.
-    </p>
+    <h3>Рецепты</h3>
 
+    {% if cookbook %}
+        {% for recipe in cookbook.recipes %}
+            <fieldset>
+                <legend>Рецепт</legend>
+                <input name="recipe_title" value="{{ recipe.title }}" placeholder="Название"><br>
+                <input name="recipe_time" value="{{ recipe.cooking_time_minutes }}" placeholder="Время (мин)"><br>
+                <input name="recipe_ingredients"
+                       value="{{ recipe.ingredients|join:', ' }}"
+                       placeholder="Ингредиенты через запятую"><br>
+            </fieldset>
+        {% endfor %}
+    {% endif %}
+
+    <fieldset>
+        <legend>Новый рецепт</legend>
+        <input name="recipe_title" placeholder="Название"><br>
+        <input name="recipe_time" placeholder="Время (мин)"><br>
+        <input name="recipe_ingredients" placeholder="Ингредиенты через запятую"><br>
+    </fieldset>
+
+    <br>
     <button type="submit">Сохранить</button>
 </form>
+
 {% endblock %}
