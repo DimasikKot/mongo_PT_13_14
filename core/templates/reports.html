@@ -15,11 +15,27 @@
     <button type="submit">Создать отчёт</button>
 </form>
 
-{% if result %}
-<ul>
-{% for r in result %}
-    <li>{{ r }}</li>
-{% endfor %}
-</ul>
+{% if result is not None %}
+    {% if result %}
+        <table border="1" style="border-collapse: collapse;">
+            <tr>
+                {% for key in result.0.keys %}
+                    <th style="padding: 10px;">{{ key }}</th>
+                {% endfor %}
+            </tr>
+
+            {% for row in result %}
+                <tr>
+                    {% for value in row.values %}
+                        <td style="padding: 10px;">{{ value }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>По заданным параметрам ничего не найдено</p>
+    {% endif %}
 {% endif %}
+
+
 {% endblock %}

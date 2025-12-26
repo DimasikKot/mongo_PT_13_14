@@ -12,7 +12,7 @@ from .reports import *
 def reports_page(request):
     result = None
 
-    if "type" in request and "value" in request.GET:
+    if "type" in request.GET and "value" in request.GET:
         t = request.GET["type"]
         v = int(request.GET["value"])
 
