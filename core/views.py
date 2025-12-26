@@ -12,16 +12,16 @@ from .reports import *
 def reports_page(request):
     result = None
 
-    if "type" in request.GET:
+    if "type" in request and "value" in request.GET:
         t = request.GET["type"]
         v = int(request.GET["value"])
 
         if t == "cheap":
-            result = list(pizzerias.aggregate(cheap_pipeline(v)))
+            result = list(pizzerias.aggregate(cheap_pizzas_pipeline(v)))
         elif t == "expensive":
-            result = list(pizzerias.aggregate(expensive_pipeline(v)))
+            result = list(pizzerias.aggregate(expensive_pizzas_pipeline(v)))
         elif t == "fast":
-            result = list(cookbooks.aggregate(fast_pipeline(v)))
+            result = list(cookbooks.aggregate(fast_recipes_pipeline(v)))
         elif t == "low":
             result = list(cookbooks.aggregate(low_ingredients_pipeline(v)))
 
