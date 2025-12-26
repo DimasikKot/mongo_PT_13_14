@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Кулинарные книги</h2>
+
+<a href="/cookbook/add/">Добавить книгу</a>
+
+<ul>
+{% for c in cookbooks %}
+    <li>
+        <b>{{ c.cookbook_name }}</b>
+        <br>
+        <a href="/cookbook/update/{{ c._id }}/">Редактировать</a>
+        <a href="/cookbook/delete/{{ c._id }}/">Удалить</a>
+
+        <ul>
+        {% for r in c.recipes %}
+            <li>{{ r.title }} ({{ r.cooking_time_minutes }} мин)</li>
+        {% endfor %}
+        </ul>
+    </li>
+{% endfor %}
+</ul>
+{% endblock %}

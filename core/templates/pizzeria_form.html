@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <input name="name" placeholder="Название" value="{{ pizzeria.name }}">
+    <input name="address" placeholder="Адрес" value="{{ pizzeria.address }}">
+    <input name="phone" placeholder="Телефон" value="{{ pizzeria.phone }}">
+    <button type="submit">Сохранить</button>
+</form>
+{% endblock %}

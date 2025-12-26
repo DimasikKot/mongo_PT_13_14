@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Отчёты</h2>
+
+<form method="get">
+    <select name="type">
+        <option value="cheap">Дешёвые пиццы</option>
+        <option value="expensive">Дорогие пиццы</option>
+        <option value="fast">Быстрые рецепты</option>
+        <option value="low">Рецепты с малым числом ингредиентов</option>
+    </select>
+
+    <input type="number" name="value" placeholder="Введите число">
+    <button type="submit">Создать отчёт</button>
+</form>
+
+{% if result %}
+<ul>
+{% for r in result %}
+    <li>{{ r }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

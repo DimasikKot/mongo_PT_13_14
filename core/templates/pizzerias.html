@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Пиццерии</h2>
+
+<a href="/pizzeria/add/">Добавить пиццерию</a>
+
+<ul>
+{% for p in pizzerias %}
+    <li>
+        <b>{{ p.name }}</b> — {{ p.address }} — {{ p.phone }}
+        <br>
+        <a href="/pizzeria/update/{{ p._id }}/">Редактировать</a>
+        <a href="/pizzeria/delete/{{ p._id }}/">Удалить</a>
+
+        <ul>
+        {% for pizza in p.pizzas %}
+            <li>{{ pizza.name }} — {{ pizza.price }}₽</li>
+        {% endfor %}
+        </ul>
+    </li>
+{% endfor %}
+</ul>
+{% endblock %}

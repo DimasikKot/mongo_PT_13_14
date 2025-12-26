@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    <label>Название кулинарной книги:</label><br>
+    <input type="text" name="cookbook_name" value="{{ cookbook.cookbook_name }}" required>
+    <br><br>
+
+    <p>
+        <b>Примечание:</b><br>
+        Рецепты добавляются как массив внутри документа MongoDB.<br>
+        Для учебной работы достаточно редактировать название книги.
+    </p>
+
+    <button type="submit">Сохранить</button>
+</form>
+{% endblock %}
