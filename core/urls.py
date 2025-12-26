@@ -14,5 +14,6 @@ urlpatterns = [
     path("cookbook/delete/<str:id>/", views.delete_cookbook),
     path("pizzeria/report/cheap/<int:price>/", reports.cheap_pizzas_report),
     path("pizzeria/report/expensive/<int:price>/", reports.expensive_pizzas_report),
-    path("pizzeria/report/ingredients/<str:pizza>/", reports.pizza_ingredients_report),
+    path("cookbook/report/fast/<int:time>/", reports.fast_recipes_report),
+    path("cookbook/report/low/<int:ingredients>/", reports.low_ingredients_report),
 ]
