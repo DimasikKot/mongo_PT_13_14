@@ -10,8 +10,8 @@
     <li>
         <b>{{ p.name }}</b> — {{ p.address }} — {{ p.phone }}
         <br>
-        <a href="/pizzeria/update/{{ p._id }}/">Редактировать</a>
-        <a href="/pizzeria/delete/{{ p._id }}/">Удалить</a>
+        <a href="/pizzeria/update/{{ p.id }}/">Редактировать</a>
+        <a href="/pizzeria/delete/{{ p.id }}/">Удалить</a>
 
         <ul>
         {% for pizza in p.pizzas %}

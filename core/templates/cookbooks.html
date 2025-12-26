@@ -10,8 +10,8 @@
     <li>
         <b>{{ c.cookbook_name }}</b>
         <br>
-        <a href="/cookbook/update/{{ c._id }}/">Редактировать</a>
-        <a href="/cookbook/delete/{{ c._id }}/">Удалить</a>
+        <a href="/cookbook/update/{{ c.id }}/">Редактировать</a>
+        <a href="/cookbook/delete/{{ c.id }}/">Удалить</a>
 
         <ul>
         {% for r in c.recipes %}

@@ -34,10 +34,14 @@ def index(request):
 
 def pizzerias_page(request):
     data = list(pizzerias.find())
+    for p in data:
+        p["id"] = str(p["_id"])
     return render(request, "pizzerias.html", {"pizzerias": data})
 
 def cookbooks_page(request):
     data = list(cookbooks.find())
+    for c in data:
+        c["id"] = str(c["_id"])
     return render(request, "cookbooks.html", {"cookbooks": data})
 
 
