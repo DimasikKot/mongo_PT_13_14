@@ -14,6 +14,8 @@ from io import BytesIO
 
 from .reports import *
 
+from reportlab.lib.pagesizes import landscape
+
 
 def reports_page(request):
     result = None
@@ -74,7 +76,7 @@ def reports_pdf(request):
         return HttpResponse("По заданным параметрам ничего не найдено", status=404)
 
     buffer = BytesIO()
-    doc = SimpleDocTemplate(buffer, pagesize=A4, leftMargin=1*cm, rightMargin=1*cm,
+    doc = SimpleDocTemplate(buffer, pagesize=landscape(A4), leftMargin=1*cm, rightMargin=1*cm,
                             topMargin=1.5*cm, bottomMargin=1*cm)
 
     styles = getSampleStyleSheet()
