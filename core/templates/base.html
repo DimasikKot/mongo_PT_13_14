@@ -34,7 +34,7 @@
         header {
             background-color: var(--md-primary);
             color: var(--md-on-primary);
-            padding: 16px;
+            padding: 20px 16px; /* чуть больше отступа сверху/снизу */
             text-align: center;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
@@ -42,20 +42,25 @@
         header h1 {
             margin: 0;
             font-weight: 500;
+            font-size: 28px; /* было ~24px, теперь больше */
         }
         
         nav {
             background-color: var(--md-primary);
-            padding: 8px 0;
+            padding: 12px 0;
+            display: flex;
+            justify-content: center; /* центрирование ссылок */
+            gap: 24px; /* расстояние между ссылками вместо | */
         }
         
         nav a {
             color: var(--md-on-primary);
             text-decoration: none;
             padding: 8px 16px;
-            margin: 0 4px;
             border-radius: 20px;
             transition: background 0.3s;
+            font-size: 16px; /* увеличенный размер текста */
+            font-weight: 500;
         }
         
         nav a:hover {
@@ -177,9 +182,9 @@
     </header>
     
     <nav>
-        <a href="/">Главная</a> |
-        <a href="/pizzerias/">Пиццерии</a> |
-        <a href="/cookbooks/">Кулинарные книги</a> |
+        <a href="/">Главная</a>
+        <a href="/pizzerias/">Пиццерии</a>
+        <a href="/cookbooks/">Кулинарные книги</a>
         <a href="/reports/">Отчёты</a>
     </nav>
     

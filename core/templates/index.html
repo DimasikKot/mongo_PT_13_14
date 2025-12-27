@@ -2,6 +2,51 @@
 
 {% block content %}
 <div class="card">
-    <p>web-приложение для работы с MongoDB 13_14.</p>
+    <h2>Статистика</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-top: 24px;">
+        <div class="stat-card">
+            <div class="stat-number">{{ pizzerias_count }}</div>
+            <div class="stat-label">Пиццерий</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">{{ total_pizzas }}</div>
+            <div class="stat-label">Видов пицц всего</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">{{ cookbooks_count }}</div>
+            <div class="stat-label">Кулинарных книг</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">{{ total_recipes }}</div>
+            <div class="stat-label">Рецептов всего</div>
+        </div>
+    </div>
+
+    <div style="margin-top: 32px; text-align: center;">
+        <a href="/pizzerias/" class="md-button">Пиццерии</a>
+        <a href="/cookbooks/" class="md-button" style="margin-left: 12px;">Кулинарные книги</a>
+        <a href="/reports/" class="md-button" style="margin-left: 12px;">Отчёты</a>
+    </div>
 </div>
+
+<style>
+    .stat-card {
+        background: var(--md-card-bg, #fff);
+        border: 1px solid var(--md-divider-color, #e0e0e0);
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: var(--md-primary-color, #6200ee);
+    }
+    .stat-label {
+        font-size: 1rem;
+        color: #555;
+        margin-top: 8px;
+    }
+</style>
 {% endblock %}

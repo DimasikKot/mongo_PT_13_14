@@ -6,26 +6,49 @@
 
     <a href="/pizzeria/add/" class="md-button">Добавить пиццерию</a>
 
-    <ul style="margin-top: 24px;">
+    <div style="margin-top: 24px; display: grid; gap: 20px;">
     {% for p in pizzerias %}
-        <li style="margin-bottom: 32px;">
-            <b>{{ p.name }}</b> — {{ p.address }} — {{ p.phone }}
-            <div style="margin: 12px 0;">
+        <div class="item-card">
+            <h3 style="margin: 0 0 8px 0;">{{ p.name }}</h3>
+            <p style="margin: 4px 0; color: #555;">
+                {{ p.address }} — {{ p.phone }}
+            </p>
+
+            <div style="margin: 16px 0;">
                 <a href="/pizzeria/update/{{ p.id }}/" class="md-button secondary">Редактировать</a>
-                <a href="/pizzeria/delete/{{ p.id }}/" class="md-button secondary">Удалить</a>
+                <a href="/pizzeria/delete/{{ p.id }}/" class="md-button secondary" style="margin-left: 8px;">Удалить</a>
             </div>
 
-            <ul>
-            {% for pizza in p.pizzas %}
-                <li>{{ pizza.name }} — {{ pizza.price }}₽</li>
-            {% empty %}
-                <li style="color: #757575;">Пиццы отсутствуют</li>
-            {% endfor %}
-            </ul>
-        </li>
+            <div>
+                <strong>Меню:</strong>
+                {% if p.pizzas %}
+                <ul style="margin: 8px 0; padding-left: 20px;">
+                    {% for pizza in p.pizzas %}
+                        <li>{{ pizza.name }} — {{ pizza.price }}₽</li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                    <span style="color: #757575;">Пиццы отсутствуют</span>
+                {% endif %}
+            </div>
+        </div>
     {% empty %}
-        <li>Пиццерий пока нет</li>
+        <p style="text-align: center; color: #757575;">Пиццерий пока нет</p>
     {% endfor %}
-    </ul>
+    </div>
 </div>
+
+<style>
+    .item-card {
+        border: 1px solid #e0e0e0;
+        border-radius: 12px;
+        padding: 20px;
+        background: var(--md-card-bg, #fff);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        transition: box-shadow 0.2s;
+    }
+    .item-card:hover {
+        box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+</style>
 {% endblock %}

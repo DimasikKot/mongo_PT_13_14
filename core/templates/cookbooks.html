@@ -6,22 +6,46 @@
 
     <a href="/cookbook/add/" class="md-button">Добавить книгу</a>
 
-    <ul>
+    <div style="margin-top: 24px; display: grid; gap: 20px;">
     {% for c in cookbooks %}
-        <li style="margin-bottom: 24px;">
-            <b>{{ c.cookbook_name }}</b>
-            <div style="margin-top: 8px;">
+        <div class="item-card">
+            <h3 style="margin: 0 0 12px 0;">{{ c.cookbook_name }}</h3>
+
+            <div style="margin-bottom: 16px;">
                 <a href="/cookbook/update/{{ c.id }}/" class="md-button secondary">Редактировать</a>
-                <a href="/cookbook/delete/{{ c.id }}/" class="md-button secondary">Удалить</a>
+                <a href="/cookbook/delete/{{ c.id }}/" class="md-button secondary" style="margin-left: 8px;">Удалить</a>
             </div>
 
-            <ul>
-            {% for r in c.recipes %}
-                <li>{{ r.title }} ({{ r.cooking_time_minutes }} мин)</li>
-            {% endfor %}
-            </ul>
-        </li>
+            <div>
+                <strong>Рецепты:</strong>
+                {% if c.recipes %}
+                <ul style="margin: 8px 0; padding-left: 20px;">
+                    {% for r in c.recipes %}
+                        <li>{{ r.title }} ({{ r.cooking_time_minutes }} мин)</li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                    <span style="color: #757575;">Рецептов нет</span>
+                {% endif %}
+            </div>
+        </div>
+    {% empty %}
+        <p style="text-align: center; color: #757575;">Кулинарных книг пока нет</p>
     {% endfor %}
-    </ul>
+    </div>
 </div>
+
+<style>
+    .item-card {
+        border: 1px solid #e0e0e0;
+        border-radius: 12px;
+        padding: 20px;
+        background: var(--md-card-bg, #fff);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        transition: box-shadow 0.2s;
+    }
+    .item-card:hover {
+        box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+</style>
 {% endblock %}
