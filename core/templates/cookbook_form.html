@@ -3,7 +3,7 @@
 <div class="card">
     <h2>{% if cookbook %}Редактировать книгу{% else %}Добавить книгу{% endif %}</h2>
 
-    <form method="post">
+    <form method="post" style="padding-right: 24px">
         {% csrf_token %}
 
         <div class="md-textfield">
@@ -15,7 +15,7 @@
         <div id="recipes-container">
             {% if cookbook %}
                 {% for recipe in cookbook.recipes %}
-                    <div class="recipe-block card" style="margin-bottom: 16px; padding: 16px;">
+                    <div class="recipe-block card" style="margin-bottom: 16px; padding: 16px; padding-right: 40px">
                         <div class="md-textfield">
                             <input name="recipe_title" value="{{ recipe.title }}" placeholder=" " required>
                             <label>Название</label>

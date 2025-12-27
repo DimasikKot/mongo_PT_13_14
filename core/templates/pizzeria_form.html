@@ -4,7 +4,7 @@
 <div class="card">
     <h2>{% if pizzeria %}Редактировать пиццерию{% else %}Добавить пиццерию{% endif %}</h2>
 
-    <form method="post">
+    <form method="post" style="padding-right: 24px">
         {% csrf_token %}
 
         <h3 style="margin-top: 24px;">Основная информация</h3>
@@ -29,7 +29,7 @@
         <div id="pizzas-container">
             {% if pizzeria %}
                 {% for pizza in pizzeria.pizzas %}
-                    <div class="pizza-block card" style="margin-bottom: 16px; padding: 16px;">
+                    <div class="pizza-block card" style="margin-bottom: 16px; padding: 16px; padding-right: 40px">
                         <div class="md-textfield">
                             <input name="pizza_name" value="{{ pizza.name }}" placeholder=" " required>
                             <label>Название</label>
