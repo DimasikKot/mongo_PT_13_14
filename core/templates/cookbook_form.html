@@ -6,32 +6,28 @@
 <form method="post">
     {% csrf_token %}
 
-    <h3>Название книги</h3>
-    <input name="cookbook_name" value="{{ cookbook.cookbook_name }}" placeholder="Название"><br>
+    <input name="cookbook_name" value="{{ cookbook.cookbook_name }}" placeholder="Название" required><br>
 
     <h3>Рецепты</h3>
 
-    {% if cookbook %}
-        {% for recipe in cookbook.recipes %}
-            <fieldset>
-                <legend>Рецепт</legend>
-                <input name="recipe_title" value="{{ recipe.title }}" placeholder="Название"><br>
-                <input name="recipe_time" value="{{ recipe.cooking_time_minutes }}" placeholder="Время (мин)"><br>
-                <input name="recipe_ingredients"
-                       value="{{ recipe.ingredients|join:', ' }}"
-                       placeholder="Ингредиенты через запятую"><br>
-            </fieldset>
-        {% endfor %}
-    {% endif %}
+    {% for recipe in cookbook.recipes %}
+    <fieldset>
+        <legend>Существующий рецепт</legend>
+        <input name="recipe_title" value="{{ recipe.title }}" required><br>
+        <input name="recipe_time" value="{{ recipe.cooking_time_minutes }}" required><br>
+        <input name="recipe_ingredients" value="{{ recipe.ingredients|join:', ' }}" required><br>
+    </fieldset>
+    {% endfor %}
 
+    {% for _ in "123" %}
     <fieldset>
         <legend>Новый рецепт</legend>
         <input name="recipe_title" placeholder="Название"><br>
         <input name="recipe_time" placeholder="Время (мин)"><br>
-        <input name="recipe_ingredients" placeholder="Ингредиенты через запятую"><br>
+        <input name="recipe_ingredients" placeholder="Ингредиенты"><br>
     </fieldset>
+    {% endfor %}
 
-    <br>
     <button type="submit">Сохранить</button>
 </form>
 

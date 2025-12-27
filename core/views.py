@@ -70,6 +70,11 @@ def pizzeria_form(request, id=None):
         pizza_ingredients = request.POST.getlist("pizza_ingredients")
 
         for i in range(len(pizza_names)):
+            if not pizza_names[i].strip():
+                continue
+            if not pizza_prices[i].isdigit() or not pizza_weights[i].isdigit():
+                continue
+
             pizzas.append({
                 "name": pizza_names[i],
                 "price": int(pizza_prices[i]),
@@ -123,6 +128,11 @@ def cookbook_form(request, id=None):
         ingredients = request.POST.getlist("recipe_ingredients")
 
         for i in range(len(titles)):
+            if not titles[i].strip():
+                continue
+            if not times[i].isdigit():
+                continue
+
             recipes.append({
                 "title": titles[i],
                 "cooking_time_minutes": int(times[i]),
