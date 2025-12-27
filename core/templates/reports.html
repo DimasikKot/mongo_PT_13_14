@@ -1,44 +1,96 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Отчёты</h2>
+<div class="card">
+    <h2>Отчёты</h2>
 
-<form method="get">
-    <select name="type">
-        <option value="cheap" {% if type == "cheap" %}selected{% endif %}>Дешёвые пиццы</option>
-        <option value="expensive" {% if type == "expensive" %}selected{% endif %}>Дорогие пиццы</option>
-        <option value="fast" {% if type == "fast" %}selected{% endif %}>Быстрые рецепты</option>
-        <option value="low" {% if type == "low" %}selected{% endif %}>Мало ингредиентов</option>
-    </select>
+    <form method="get" id="reportForm">
+        <div class="md-textfield" style="display: inline-block; width: 300px; margin-right: 16px;">
+            <select name="type" id="reportType" required>
+                <option value="" disabled {% if not type %}selected{% endif %}>Выберите тип</option>
+                <option value="cheap" {% if type == "cheap" %}selected{% endif %}>Дешёвые пиццы</option>
+                <option value="expensive" {% if type == "expensive" %}selected{% endif %}>Дорогие пиццы</option>
+                <option value="fast" {% if type == "fast" %}selected{% endif %}>Быстрые рецепты</option>
+                <option value="low" {% if type == "low" %}selected{% endif %}>Мало ингредиентов</option>
+            </select>
+        </div>
 
-    <input type="number" name="value" value="{{ value }}">
-    <button type="submit">Создать отчёт</button>
-</form>
+        <div class="md-textfield" style="display: inline-block; width: 280px;">
+            <input type="number" name="value" id="valueInput" 
+                   value="{% if value %}{{ value }}{% endif %}" 
+                   placeholder=" " min="1" required>
+            <label id="valueLabel">
+                {% if type == "cheap" %}Максимальная цена (₽)
+                {% elif type == "expensive" %}Минимальная цена (₽)
+                {% elif type == "fast" %}Максимальное время (мин)
+                {% elif type == "low" %}Максимальное кол-во ингредиентов
+                {% else %}Значение{% endif %}
+            </label>
+        </div>
 
-{% if error %}
-<p style="color:red">{{ error }}</p>
-{% endif %}
+        <button type="submit" class="md-button" style="vertical-align: top; margin-left: 16px;">Создать отчёт</button>
+    </form>
 
-{% if result is not None %}
-    {% if result %}
-        <table border="1" style="border-collapse: collapse;">
-            <tr>
-                {% for key in result.0.keys %}
-                    <th style="padding: 10px;">{{ key }}</th>
-                {% endfor %}
-            </tr>
-
-            {% for row in result %}
-                <tr>
-                    {% for value in row.values %}
-                        <td style="padding: 10px;">{{ value }}</td>
-                    {% endfor %}
-                </tr>
-            {% endfor %}
-        </table>
-    {% else %}
-        <p>По заданным параметрам ничего не найдено</p>
+    {# Остальная часть шаблона остаётся без изменений #}
+    {% if error %}
+    <p style="color: var(--md-error); margin-top: 24px;">{{ error }}</p>
     {% endif %}
-{% endif %}
 
+    {% if result is not none %}
+        {% if result %}
+            <table border="1" style="border-collapse: collapse; margin-top: 32px; width: 100%;">
+                <thead>
+                    <tr>
+                        {% for key in result.0.keys %}
+                            <th style="padding: 12px; text-align: left; background: #f5f5f5;">{{ key }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in result %}
+                        <tr>
+                            {% for value in row.values %}
+                                <td style="padding: 12px;">{{ value }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p style="margin-top: 24px;">По заданным параметрам ничего не найдено</p>
+        {% endif %}
+    {% endif %}
+</div>
+
+<script>
+    // Тот же JavaScript, что и раньше — он работает везде
+    document.getElementById('reportType').addEventListener('change', function() {
+        const label = document.getElementById('valueLabel');
+
+        switch(this.value) {
+            case 'cheap':
+                label.textContent = 'Максимальная цена (₽)';
+                break;
+            case 'expensive':
+                label.textContent = 'Минимальная цена (₽)';
+                break;
+            case 'fast':
+                label.textContent = 'Максимальное время (мин)';
+                break;
+            case 'low':
+                label.textContent = 'Максимальное кол-во ингредиентов';
+                break;
+            default:
+                label.textContent = 'Значение';
+        }
+    });
+
+    // Инициализация при загрузке
+    window.addEventListener('load', function() {
+        const select = document.getElementById('reportType');
+        if (select.value) {
+            select.dispatchEvent(new Event('change'));
+        }
+    });
+</script>
 {% endblock %}

@@ -1,24 +1,27 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Кулинарные книги</h2>
+<div class="card">
+    <h2>Кулинарные книги</h2>
 
-<a href="/cookbook/add/">Добавить книгу</a>
+    <a href="/cookbook/add/" class="md-button">Добавить книгу</a>
 
-<ul>
-{% for c in cookbooks %}
-    <li>
-        <b>{{ c.cookbook_name }}</b>
-        <br>
-        <a href="/cookbook/update/{{ c.id }}/">Редактировать</a>
-        <a href="/cookbook/delete/{{ c.id }}/">Удалить</a>
+    <ul>
+    {% for c in cookbooks %}
+        <li style="margin-bottom: 24px;">
+            <b>{{ c.cookbook_name }}</b>
+            <div style="margin-top: 8px;">
+                <a href="/cookbook/update/{{ c.id }}/" class="md-button secondary">Редактировать</a>
+                <a href="/cookbook/delete/{{ c.id }}/" class="md-button secondary">Удалить</a>
+            </div>
 
-        <ul>
-        {% for r in c.recipes %}
-            <li>{{ r.title }} ({{ r.cooking_time_minutes }} мин)</li>
-        {% endfor %}
-        </ul>
-    </li>
-{% endfor %}
-</ul>
+            <ul>
+            {% for r in c.recipes %}
+                <li>{{ r.title }} ({{ r.cooking_time_minutes }} мин)</li>
+            {% endfor %}
+            </ul>
+        </li>
+    {% endfor %}
+    </ul>
+</div>
 {% endblock %}

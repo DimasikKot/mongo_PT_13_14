@@ -1,24 +1,31 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Пиццерии</h2>
+<div class="card">
+    <h2>Пиццерии</h2>
 
-<a href="/pizzeria/add/">Добавить пиццерию</a>
+    <a href="/pizzeria/add/" class="md-button">Добавить пиццерию</a>
 
-<ul>
-{% for p in pizzerias %}
-    <li>
-        <b>{{ p.name }}</b> — {{ p.address }} — {{ p.phone }}
-        <br>
-        <a href="/pizzeria/update/{{ p.id }}/">Редактировать</a>
-        <a href="/pizzeria/delete/{{ p.id }}/">Удалить</a>
+    <ul style="margin-top: 24px;">
+    {% for p in pizzerias %}
+        <li style="margin-bottom: 32px;">
+            <b>{{ p.name }}</b> — {{ p.address }} — {{ p.phone }}
+            <div style="margin: 12px 0;">
+                <a href="/pizzeria/update/{{ p.id }}/" class="md-button secondary">Редактировать</a>
+                <a href="/pizzeria/delete/{{ p.id }}/" class="md-button secondary">Удалить</a>
+            </div>
 
-        <ul>
-        {% for pizza in p.pizzas %}
-            <li>{{ pizza.name }} — {{ pizza.price }}₽</li>
-        {% endfor %}
-        </ul>
-    </li>
-{% endfor %}
-</ul>
+            <ul>
+            {% for pizza in p.pizzas %}
+                <li>{{ pizza.name }} — {{ pizza.price }}₽</li>
+            {% empty %}
+                <li style="color: #757575;">Пиццы отсутствуют</li>
+            {% endfor %}
+            </ul>
+        </li>
+    {% empty %}
+        <li>Пиццерий пока нет</li>
+    {% endfor %}
+    </ul>
+</div>
 {% endblock %}

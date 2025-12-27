@@ -1,46 +1,68 @@
 {% extends "base.html" %}
 {% block content %}
+<div class="card">
+    <h2>{% if cookbook %}Редактировать книгу{% else %}Добавить книгу{% endif %}</h2>
 
-<h2>{% if cookbook %}Редактировать книгу{% else %}Добавить книгу{% endif %}</h2>
+    <form method="post">
+        {% csrf_token %}
 
-<form method="post">
-    {% csrf_token %}
+        <div class="md-textfield">
+            <input name="cookbook_name" value="{{ cookbook.cookbook_name }}" placeholder=" " required>
+            <label>Название книги</label>
+        </div>
 
-    <input name="cookbook_name" value="{{ cookbook.cookbook_name }}" placeholder="Название книги" required><br>
+        <h3>Рецепты</h3>
+        <div id="recipes-container">
+            {% if cookbook %}
+                {% for recipe in cookbook.recipes %}
+                    <div class="recipe-block card" style="margin-bottom: 16px; padding: 16px;">
+                        <div class="md-textfield">
+                            <input name="recipe_title" value="{{ recipe.title }}" placeholder=" " required>
+                            <label>Название</label>
+                        </div>
+                        <div class="md-textfield">
+                            <input name="recipe_time" value="{{ recipe.cooking_time_minutes }}" placeholder=" " required>
+                            <label>Время (мин)</label>
+                        </div>
+                        <div class="md-textfield">
+                            <input name="recipe_ingredients" value="{{ recipe.ingredients|join:', ' }}" placeholder=" " required>
+                            <label>Ингредиенты через запятую</label>
+                        </div>
+                        <button type="button" class="md-button secondary" onclick="this.parentElement.remove()">Удалить</button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
 
-    <h3>Рецепты</h3>
-    <div id="recipes-container">
-        {% if cookbook %}
-            {% for recipe in cookbook.recipes %}
-                <div class="recipe-block">
-                    <input name="recipe_title" value="{{ recipe.title }}" placeholder="Название" required>
-                    <input name="recipe_time" value="{{ recipe.cooking_time_minutes }}" placeholder="Время (мин)" required>
-                    <input name="recipe_ingredients" value="{{ recipe.ingredients|join:', ' }}" placeholder="Ингредиенты" required>
-                    <button type="button" onclick="this.parentElement.remove()">Удалить</button>
-                </div>
-            {% endfor %}
-        {% endif %}
-    </div>
-
-    <button type="button" onclick="addRecipe()">Добавить рецепт</button>
-    <br><br>
-    <button type="submit">Сохранить</button>
-</form>
+        <button type="button" class="md-button secondary" onclick="addRecipe()">Добавить рецепт</button>
+        <br><br>
+        <button type="submit" class="md-button">Сохранить</button>
+    </form>
+</div>
 
 <script>
 function addRecipe() {
     const container = document.getElementById('recipes-container');
     const div = document.createElement('div');
-    div.className = 'recipe-block';
+    div.className = 'recipe-block card';
+    div.style.marginBottom = '16px';
+    div.style.padding = '16px';
     div.innerHTML = `
-        <input name="recipe_title" placeholder="Название" required>
-        <input name="recipe_time" placeholder="Время (мин)" required>
-        <input name="recipe_ingredients" placeholder="Ингредиенты через запятую" required>
-        <button type="button" onclick="this.parentElement.remove()">Удалить</button>
-        <br>
+        <div class="md-textfield">
+            <input name="recipe_title" placeholder=" " required>
+            <label>Название</label>
+        </div>
+        <div class="md-textfield">
+            <input name="recipe_time" placeholder=" " required>
+            <label>Время (мин)</label>
+        </div>
+        <div class="md-textfield">
+            <input name="recipe_ingredients" placeholder=" " required>
+            <label>Ингредиенты через запятую</label>
+        </div>
+        <button type="button" class="md-button secondary" onclick="this.parentElement.remove()">Удалить</button>
     `;
     container.appendChild(div);
 }
 </script>
-
 {% endblock %}

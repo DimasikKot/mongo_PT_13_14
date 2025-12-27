@@ -1,48 +1,88 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h2>{% if pizzeria %}Редактировать пиццерию{% else %}Добавить пиццерию{% endif %}</h2>
+<div class="card">
+    <h2>{% if pizzeria %}Редактировать пиццерию{% else %}Добавить пиццерию{% endif %}</h2>
 
-<form method="post">
-    {% csrf_token %}
+    <form method="post">
+        {% csrf_token %}
 
-    <h3>Основная информация</h3>
-    <input name="name" value="{{ pizzeria.name }}" placeholder="Название" required><br>
-    <input name="address" value="{{ pizzeria.address }}" placeholder="Адрес" required><br>
-    <input name="phone" value="{{ pizzeria.phone }}" placeholder="Телефон" required><br>
+        <h3 style="margin-top: 24px;">Основная информация</h3>
 
-    <h3>Пиццы</h3>
-    <div id="pizzas-container">
-        {% if pizzeria %}
-            {% for pizza in pizzeria.pizzas %}
-                <div class="pizza-block">
-                    <input name="pizza_name" value="{{ pizza.name }}" placeholder="Название" required>
-                    <input name="pizza_price" value="{{ pizza.price }}" placeholder="Цена" required>
-                    <input name="pizza_weight" value="{{ pizza.weight }}" placeholder="Вес" required>
-                    <input name="pizza_ingredients" value="{{ pizza.ingredients|join:', ' }}" placeholder="Ингредиенты" required>
-                    <button type="button" onclick="this.parentElement.remove()">Удалить</button>
-                </div>
-            {% endfor %}
-        {% endif %}
-    </div>
+        <div class="md-textfield">
+            <input name="name" value="{{ pizzeria.name|default:'' }}" placeholder=" " required>
+            <label>Название</label>
+        </div>
 
-    <button type="button" onclick="addPizza()">Добавить пиццу</button>
-    <br><br>
-    <button type="submit">Сохранить</button>
-</form>
+        <div class="md-textfield">
+            <input name="address" value="{{ pizzeria.address|default:'' }}" placeholder=" " required>
+            <label>Адрес</label>
+        </div>
+
+        <div class="md-textfield">
+            <input name="phone" value="{{ pizzeria.phone|default:'' }}" placeholder=" " required>
+            <label>Телефон</label>
+        </div>
+
+        <h3 style="margin-top: 32px;">Пиццы</h3>
+
+        <div id="pizzas-container">
+            {% if pizzeria %}
+                {% for pizza in pizzeria.pizzas %}
+                    <div class="pizza-block card" style="margin-bottom: 16px; padding: 16px;">
+                        <div class="md-textfield">
+                            <input name="pizza_name" value="{{ pizza.name }}" placeholder=" " required>
+                            <label>Название</label>
+                        </div>
+                        <div class="md-textfield">
+                            <input name="pizza_price" value="{{ pizza.price }}" placeholder=" " required>
+                            <label>Цена (₽)</label>
+                        </div>
+                        <div class="md-textfield">
+                            <input name="pizza_weight" value="{{ pizza.weight }}" placeholder=" " required>
+                            <label>Вес (г)</label>
+                        </div>
+                        <div class="md-textfield">
+                            <input name="pizza_ingredients" value="{{ pizza.ingredients|join:', ' }}" placeholder=" " required>
+                            <label>Ингредиенты через запятую</label>
+                        </div>
+                        <button type="button" class="md-button secondary" onclick="this.parentElement.remove()">Удалить</button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <button type="button" class="md-button secondary" onclick="addPizza()">Добавить пиццу</button>
+        <br><br>
+        <button type="submit" class="md-button">Сохранить</button>
+    </form>
+</div>
 
 <script>
 function addPizza() {
     const container = document.getElementById('pizzas-container');
     const div = document.createElement('div');
-    div.className = 'pizza-block';
+    div.className = 'pizza-block card';
+    div.style.marginBottom = '16px';
+    div.style.padding = '16px';
     div.innerHTML = `
-        <input name="pizza_name" placeholder="Название" required>
-        <input name="pizza_price" placeholder="Цена" required>
-        <input name="pizza_weight" placeholder="Вес" required>
-        <input name="pizza_ingredients" placeholder="Ингредиенты через запятую" required>
-        <button type="button" onclick="this.parentElement.remove()">Удалить</button>
-        <br>
+        <div class="md-textfield">
+            <input name="pizza_name" placeholder=" " required>
+            <label>Название</label>
+        </div>
+        <div class="md-textfield">
+            <input name="pizza_price" placeholder=" " required>
+            <label>Цена (₽)</label>
+        </div>
+        <div class="md-textfield">
+            <input name="pizza_weight" placeholder=" " required>
+            <label>Вес (г)</label>
+        </div>
+        <div class="md-textfield">
+            <input name="pizza_ingredients" placeholder=" " required>
+            <label>Ингредиенты через запятую</label>
+        </div>
+        <button type="button" class="md-button secondary" onclick="this.parentElement.remove()">Удалить</button>
     `;
     container.appendChild(div);
 }
