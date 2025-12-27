@@ -11,21 +11,31 @@ from .reports import *
 
 def reports_page(request):
     result = None
+    error = None
+    report_type = request.GET.get("type")
+    value = request.GET.get("value")
 
-    if "type" in request.GET and "value" in request.GET:
-        t = request.GET["type"]
-        v = int(request.GET["value"])
+    if report_type and value:
+        if not value.isdigit():
+            error = "Значение должно быть числом"
+        else:
+            v = int(value)
 
-        if t == "cheap":
-            result = list(pizzerias.aggregate(cheap_pizzas_pipeline(v)))
-        elif t == "expensive":
-            result = list(pizzerias.aggregate(expensive_pizzas_pipeline(v)))
-        elif t == "fast":
-            result = list(cookbooks.aggregate(fast_recipes_pipeline(v)))
-        elif t == "low":
-            result = list(cookbooks.aggregate(low_ingredients_pipeline(v)))
+            if report_type == "cheap":
+                result = list(pizzerias.aggregate(cheap_pizzas_pipeline(v)))
+            elif report_type == "expensive":
+                result = list(pizzerias.aggregate(expensive_pizzas_pipeline(v)))
+            elif report_type == "fast":
+                result = list(cookbooks.aggregate(fast_recipes_pipeline(v)))
+            elif report_type == "low":
+                result = list(cookbooks.aggregate(low_ingredients_pipeline(v)))
 
-    return render(request, "reports.html", {"result": result})
+    return render(request, "reports.html", {
+        "result": result,
+        "error": error,
+        "type": report_type,
+        "value": value
+    })
 
 
 def index(request):
