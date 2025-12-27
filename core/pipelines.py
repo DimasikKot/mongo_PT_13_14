@@ -23,8 +23,8 @@ def cheap_pizzas_pipeline(price: int):
             "_id": 0,
             "Пиццерия": "$name",
             "Пицца": "$pizzas.name",
-            "Цена ₽": "$pizzas.price",
-            "Вес (г)": "$pizzas.weight",
+            "Цена, руб": "$pizzas.price",
+            "Вес, г": "$pizzas.weight",
             "Ингредиенты": {
                 "$cond": {
                     "if": {"$isArray": "$pizzas.ingredients"},
@@ -45,8 +45,8 @@ def expensive_pizzas_pipeline(price: int):
             "_id": 0,
             "Пиццерия": "$name",
             "Пицца": "$pizzas.name",
-            "Цена ₽": "$pizzas.price",
-            "Вес (г)": "$pizzas.weight",
+            "Цена, руб": "$pizzas.price",
+            "Вес, г": "$pizzas.weight",
             "Ингредиенты": {
                 "$cond": {
                     "if": {"$isArray": "$pizzas.ingredients"},
@@ -67,7 +67,7 @@ def fast_recipes_pipeline(time: int):
             "_id": 0,
             "Кулинарная книга": "$cookbook_name",
             "Рецепт": "$recipes.title",
-            "Время (мин)": "$recipes.cooking_time_minutes",
+            "Время, мин": "$recipes.cooking_time_minutes",
             "Ингредиенты": {
                 "$cond": {
                     "if": {"$isArray": "$recipes.ingredients"},
@@ -76,7 +76,7 @@ def fast_recipes_pipeline(time: int):
                 }
             }
         }},
-        {"$sort": {"Время (мин)": 1}}
+        {"$sort": {"Время, мин": 1}}
     ]
 
 

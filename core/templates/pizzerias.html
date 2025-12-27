@@ -10,19 +10,14 @@
     {% for p in pizzerias %}
         <div class="item-card">
             <h3 style="margin: 0 0 8px 0;">{{ p.name }}</h3>
-            <p style="margin: 4px 0; color: #555;">
+            <p style="margin-top: 4px; margin-bottom: 16px; color: #555;">
                 {{ p.address }} — {{ p.phone }}
             </p>
-
-            <div style="margin: 16px 0;">
-                <a href="/pizzeria/update/{{ p.id }}/" class="md-button secondary">Редактировать</a>
-                <a href="/pizzeria/delete/{{ p.id }}/" class="md-button secondary" style="margin-left: 8px;">Удалить</a>
-            </div>
 
             <div>
                 <strong>Меню:</strong>
                 {% if p.pizzas %}
-                <ul style="margin: 8px 0; padding-left: 20px;">
+                <ul style="margin: 4px 0; padding-left: 20px;">
                     {% for pizza in p.pizzas %}
                         <li>{{ pizza.name }} — {{ pizza.price }}₽</li>
                     {% endfor %}
@@ -30,6 +25,11 @@
                 {% else %}
                     <span style="color: #757575;">Пиццы отсутствуют</span>
                 {% endif %}
+            </div>
+
+            <div style="margin-top: 16px;">
+                <a href="/pizzeria/update/{{ p.id }}/" class="md-button secondary">Редактировать</a>
+                <a href="/pizzeria/delete/{{ p.id }}/" class="md-button secondary" style="margin-left: 8px;">Удалить</a>
             </div>
         </div>
     {% empty %}

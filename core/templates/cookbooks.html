@@ -11,11 +11,6 @@
         <div class="item-card">
             <h3 style="margin: 0 0 12px 0;">{{ c.cookbook_name }}</h3>
 
-            <div style="margin-bottom: 16px;">
-                <a href="/cookbook/update/{{ c.id }}/" class="md-button secondary">Редактировать</a>
-                <a href="/cookbook/delete/{{ c.id }}/" class="md-button secondary" style="margin-left: 8px;">Удалить</a>
-            </div>
-
             <div>
                 <strong>Рецепты:</strong>
                 {% if c.recipes %}
@@ -27,6 +22,11 @@
                 {% else %}
                     <span style="color: #757575;">Рецептов нет</span>
                 {% endif %}
+            </div>
+
+            <div style="margin-top: 16px;">
+                <a href="/cookbook/update/{{ c.id }}/" class="md-button secondary">Редактировать</a>
+                <a href="/cookbook/delete/{{ c.id }}/" class="md-button secondary" style="margin-left: 8px;">Удалить</a>
             </div>
         </div>
     {% empty %}
