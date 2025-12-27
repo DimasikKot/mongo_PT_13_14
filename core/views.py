@@ -6,40 +6,36 @@ from bson import ObjectId
 
 import json
 
-from .reports import *
-
-
-def reports_page(request):
-    result = None
-    error = None
-    report_type = request.GET.get("type")
-    value = request.GET.get("value")
-
-    if report_type and value:
-        if not value.isdigit():
-            error = "Значение должно быть числом"
-        else:
-            v = int(value)
-
-            if report_type == "cheap":
-                result = list(pizzerias.aggregate(cheap_pizzas_pipeline(v)))
-            elif report_type == "expensive":
-                result = list(pizzerias.aggregate(expensive_pizzas_pipeline(v)))
-            elif report_type == "fast":
-                result = list(cookbooks.aggregate(fast_recipes_pipeline(v)))
-            elif report_type == "low":
-                result = list(cookbooks.aggregate(low_ingredients_pipeline(v)))
-
-    return render(request, "reports.html", {
-        "result": result,
-        "error": error,
-        "type": report_type,
-        "value": value
-    })
-
 
 def index(request):
-    return render(request, "index.html")
+    # Количество пиццерий
+    pizzerias_count = pizzerias.count_documents({})
+
+    # Общее количество пицц через агрегацию
+    pizza_agg = pizzerias.aggregate([
+        {"$project": {"count": {"$size": {"$ifNull": ["$pizzas", []]}}}},
+        {"$group": {"_id": None, "total": {"$sum": "$count"}}}
+    ])
+    pizza_result = next(pizza_agg, {"total": 0})
+    total_pizzas = pizza_result["total"]
+
+    # Количество кулинарных книг
+    cookbooks_count = cookbooks.count_documents({})
+
+    # Общее количество рецептов через агрегацию
+    recipe_agg = cookbooks.aggregate([
+        {"$project": {"count": {"$size": {"$ifNull": ["$recipes", []]}}}},
+        {"$group": {"_id": None, "total": {"$sum": "$count"}}}
+    ])
+    recipe_result = next(recipe_agg, {"total": 0})
+    total_recipes = recipe_result["total"]
+
+    return render(request, "index.html", {
+        "pizzerias_count": pizzerias_count,
+        "total_pizzas": total_pizzas,
+        "cookbooks_count": cookbooks_count,
+        "total_recipes": total_recipes,
+    })
 
 
 def pizzerias_page(request):

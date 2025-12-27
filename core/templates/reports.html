@@ -27,11 +27,22 @@
                 {% else %}Значение{% endif %}
             </label>
         </div>
-
-        <button type="submit" class="md-button" style="vertical-align: top; margin-left: 16px;">Создать отчёт</button>
+    
+        <button type="submit" class="md-button md-button--primary" style="display: inline-block; vertical-align: top;">
+            Создать отчёт
+        </button>
+    
+        {% if result is not none and result %}
+        <div style="display: inline-block; margin-left: 16px; vertical-align: top;">
+            <a href="{% url 'reports_pdf' %}?type={{ type }}&value={{ value }}"
+               class="md-button md-button--primary"
+               target="_blank">
+                📄 Скачать PDF
+            </a>
+        </div>
+        {% endif %}
     </form>
 
-    {# Остальная часть шаблона остаётся без изменений #}
     {% if error %}
     <p style="color: var(--md-error); margin-top: 24px;">{{ error }}</p>
     {% endif %}

@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from . import report_views
 
 urlpatterns = [
     path("", views.index),
@@ -15,5 +16,6 @@ urlpatterns = [
     path("cookbook/update/<str:id>/", views.cookbook_form),
     path("cookbook/delete/<str:id>/", views.delete_cookbook_page),
 
-    path("reports/", views.reports_page),
+    path("reports/", report_views.reports_page),
+    path('reports/pdf/', report_views.reports_pdf, name='reports_pdf'),
 ]
