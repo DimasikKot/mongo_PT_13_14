@@ -12,28 +12,40 @@
     <input name="phone" value="{{ pizzeria.phone }}" placeholder="Телефон" required><br>
 
     <h3>Пиццы</h3>
+    <div id="pizzas-container">
+        {% if pizzeria %}
+            {% for pizza in pizzeria.pizzas %}
+                <div class="pizza-block">
+                    <input name="pizza_name" value="{{ pizza.name }}" placeholder="Название" required>
+                    <input name="pizza_price" value="{{ pizza.price }}" placeholder="Цена" required>
+                    <input name="pizza_weight" value="{{ pizza.weight }}" placeholder="Вес" required>
+                    <input name="pizza_ingredients" value="{{ pizza.ingredients|join:', ' }}" placeholder="Ингредиенты" required>
+                    <button type="button" onclick="this.parentElement.remove()">Удалить</button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
 
-    {% for pizza in pizzeria.pizzas %}
-    <fieldset>
-        <legend>Существующая пицца</legend>
-        <input name="pizza_name" value="{{ pizza.name }}" required><br>
-        <input name="pizza_price" value="{{ pizza.price }}" required><br>
-        <input name="pizza_weight" value="{{ pizza.weight }}" required><br>
-        <input name="pizza_ingredients" value="{{ pizza.ingredients|join:', ' }}" required><br>
-    </fieldset>
-    {% endfor %}
-
-    {% for _ in "123" %}
-    <fieldset>
-        <legend>Новая пицца</legend>
-        <input name="pizza_name" placeholder="Название"><br>
-        <input name="pizza_price" placeholder="Цена"><br>
-        <input name="pizza_weight" placeholder="Вес"><br>
-        <input name="pizza_ingredients" placeholder="Ингредиенты"><br>
-    </fieldset>
-    {% endfor %}
-
+    <button type="button" onclick="addPizza()">Добавить пиццу</button>
+    <br><br>
     <button type="submit">Сохранить</button>
 </form>
+
+<script>
+function addPizza() {
+    const container = document.getElementById('pizzas-container');
+    const div = document.createElement('div');
+    div.className = 'pizza-block';
+    div.innerHTML = `
+        <input name="pizza_name" placeholder="Название" required>
+        <input name="pizza_price" placeholder="Цена" required>
+        <input name="pizza_weight" placeholder="Вес" required>
+        <input name="pizza_ingredients" placeholder="Ингредиенты через запятую" required>
+        <button type="button" onclick="this.parentElement.remove()">Удалить</button>
+        <br>
+    `;
+    container.appendChild(div);
+}
+</script>
 
 {% endblock %}
