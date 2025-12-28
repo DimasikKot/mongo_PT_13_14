@@ -4,22 +4,22 @@
 <div class="card">
     <h2>{% if pizzeria %}Редактировать пиццерию{% else %}Добавить пиццерию{% endif %}</h2>
 
-    <form method="post" style="padding-right: 24px">
+    <form method="post">
         {% csrf_token %}
 
         <h3 style="margin-top: 24px;">Основная информация</h3>
 
-        <div class="md-textfield">
+        <div class="md-textfield" style="padding-right: 24px">
             <input name="name" value="{{ pizzeria.name|default:'' }}" placeholder=" " required>
             <label>Название</label>
         </div>
 
-        <div class="md-textfield">
+        <div class="md-textfield" style="padding-right: 24px">
             <input name="address" value="{{ pizzeria.address|default:'' }}" placeholder=" " required>
             <label>Адрес</label>
         </div>
 
-        <div class="md-textfield">
+        <div class="md-textfield" style="padding-right: 24px">
             <input name="phone" value="{{ pizzeria.phone|default:'' }}" placeholder=" " required>
             <label>Телефон</label>
         </div>
@@ -65,6 +65,7 @@ function addPizza() {
     div.className = 'pizza-block card';
     div.style.marginBottom = '16px';
     div.style.padding = '16px';
+    div.style.paddingRight = '40px';
     div.innerHTML = `
         <div class="md-textfield">
             <input name="pizza_name" placeholder=" " required>

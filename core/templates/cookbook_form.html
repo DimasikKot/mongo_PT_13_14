@@ -3,10 +3,10 @@
 <div class="card">
     <h2>{% if cookbook %}Редактировать книгу{% else %}Добавить книгу{% endif %}</h2>
 
-    <form method="post" style="padding-right: 24px">
+    <form method="post">
         {% csrf_token %}
 
-        <div class="md-textfield">
+        <div class="md-textfield" style="padding-right: 24px">
             <input name="cookbook_name" value="{{ cookbook.cookbook_name }}" placeholder=" " required>
             <label>Название книги</label>
         </div>
@@ -47,6 +47,7 @@ function addRecipe() {
     div.className = 'recipe-block card';
     div.style.marginBottom = '16px';
     div.style.padding = '16px';
+    div.style.paddingRight = '40px';
     div.innerHTML = `
         <div class="md-textfield">
             <input name="recipe_title" placeholder=" " required>
