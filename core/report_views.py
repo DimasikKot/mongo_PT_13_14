@@ -115,12 +115,12 @@ def reports_pdf(request):
         ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#4a90e2')),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
         ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-        ('FONTNAME', (0, 0), (-1, 0), 'TimesNewRoman'),  # ← русский шрифт для заголовков
+        ('FONTNAME', (0, 0), (-1, 0), 'TimesNewRoman'),
         ('FONTSIZE', (0, 0), (-1, 0), 12),
         ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
         ('BACKGROUND', (0, 1), (-1, -1), colors.HexColor('#f8f9fa')),
         ('GRID', (0, 0), (-1, -1), 1, colors.HexColor('#dddddd')),
-        ('FONTNAME', (0, 1), (-1, -1), 'TimesNewRoman'),  # ← русский шрифт для ячеек
+        ('FONTNAME', (0, 1), (-1, -1), 'TimesNewRoman'),
         ('FONTSIZE', (0, 1), (-1, -1), 10),
         ('LEFTPADDING', (0, 0), (-1, -1), 6),
         ('RIGHTPADDING', (0, 0), (-1, -1), 6),

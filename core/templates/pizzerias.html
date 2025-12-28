@@ -29,7 +29,13 @@
 
             <div style="margin-top: 16px;">
                 <a href="/pizzeria/update/{{ p.id }}/" class="md-button secondary">Редактировать</a>
-                <a href="/pizzeria/delete/{{ p.id }}/" class="md-button secondary" style="margin-left: 8px;">Удалить</a>
+                <button type="button" 
+                        class="md-button secondary delete-btn" 
+                        style="margin-left: 8px;" 
+                        data-id="{{ p.id }}" 
+                        data-name="{{ p.name }}">
+                    Удалить
+                </button>
             </div>
         </div>
     {% empty %}
@@ -37,6 +43,23 @@
     {% endfor %}
     </div>
 </div>
+
+<!-- Модальное окно подтверждения удаления -->
+<div id="deleteModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <h3>Подтвердите удаление</h3>
+        <p>Вы уверены, что хотите удалить пиццерию <strong id="modalPizzeriaName"></strong>?</p>
+        <div style="margin-top: 24px; text-align: right;">
+            <button type="button" id="cancelDelete" class="md-button secondary">Отмена</button>
+            <form id="deleteForm" method="post" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="md-button secondary" style="margin-left: 8px; color: #d32f2f;">Удалить</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="modalBackdrop" class="modal-backdrop" style="display: none;"></div>
 
 <style>
     .item-card {
@@ -50,5 +73,64 @@
     .item-card:hover {
         box-shadow: 0 4px 16px rgba(0,0,0,0.1);
     }
+
+    /* Фиолетовый цвет для всех ссылок/кнопок secondary */
+    .md-button.secondary {
+        color: #9333ea !important; /* приятный фиолетовый */
+    }
+    .md-button.secondary:hover {
+        color: #7c2ac7 !important;
+        text-decoration: underline;
+    }
+
+    /* Модальное окно */
+    .modal-backdrop {
+        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 1000;
+    }
+    .modal {
+        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        z-index: 1001; display: flex;
+        align-items: center; justify-content: center;
+    }
+    .modal-content {
+        background: var(--md-card-bg, #fff);
+        border-radius: 12px; padding: 24px;
+        width: 90%; max-width: 420px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
 </style>
+
+<script>
+    const modal = document.getElementById('deleteModal');
+    const backdrop = document.getElementById('modalBackdrop');
+    const cancelBtn = document.getElementById('cancelDelete');
+    const deleteForm = document.getElementById('deleteForm');
+    const pizzeriaNameSpan = document.getElementById('modalPizzeriaName');
+
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const name = this.getAttribute('data-name');
+
+            pizzeriaNameSpan.textContent = name;
+            deleteForm.action = `/pizzeria/delete/${id}/`;
+
+            modal.style.display = 'flex';
+            backdrop.style.display = 'block';
+        });
+    });
+
+    function closeModal() {
+        modal.style.display = 'none';
+        backdrop.style.display = 'none';
+    }
+
+    cancelBtn.addEventListener('click', closeModal);
+    backdrop.addEventListener('click', closeModal);
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') closeModal();
+    });
+</script>
 {% endblock %}
